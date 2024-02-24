@@ -14,7 +14,7 @@
         <a
             href="/login/photo"
             class="step"
-            class:step-primary={page.route.id?.includes("photo")}>
+            class:step-primary={$page.route.id?.includes("photo")}>
             Upload Photo
         </a>
     </ul>
