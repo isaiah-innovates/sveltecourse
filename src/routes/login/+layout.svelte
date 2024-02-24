@@ -21,7 +21,7 @@
 </nav>
 
 
-<main class="card w-4/6 bg-neutral text-neutral-content mx-auto">
+<main class="card w-4/6 bg-neutral text-neutral-content mx-auto shadow-lg">
     <div class="min-h-screen flex flex-col">
         <slot>
 
