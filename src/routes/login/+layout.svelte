@@ -22,7 +22,7 @@
 
 
 <main class="card w-4/6 bg-neutral text-neutral-content mx-auto shadow-lg">
-    <div class="min-h-screen flex flex-col">
+    <div class="card-body items-center text-center">
         <slot>
 
         </slot>
