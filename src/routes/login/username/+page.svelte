@@ -1,6 +1,6 @@
 <script lang="ts">
     import AuthCheck from "$lib/components/AuthCheck.svelte";
-    import { db, user } from "$lib/firebase";
+    import { db, user, userData } from "$lib/firebase";
     import { doc, getDoc, writeBatch } from "firebase/firestore";
 
     let username="";
@@ -14,7 +14,7 @@
     $: isTouched = username.length > 0;
     $: isTaken = isValid && !isAvailable && !loading
 
-    async function checkAvailability() {
+    function checkAvailability() {
         isAvailable = false;
         clearTimeout(debounceTimer);
 
@@ -52,14 +52,22 @@
 
     await batch.commit();
 
-    username = '';
+    username = "";
     isAvailable = false;
     }
 
 </script>
 
 <AuthCheck>
-    <h2>Username</h2>
+    {#if $userData?.username}
+    <p class="text-lg">
+      Your username is <span class="text-success font-bold"
+        >@{$userData.username}</span
+      >
+    </p>
+    <p class="text-sm">(Usernames cannot be changed)</p>
+    <a class="btn btn-primary" href="/login/photo">Upload Profile Image</a>
+  {:else}
     <form class="w-2/5" on:submit|preventDefault={confirmUsername}>
         <input
             type="text"
@@ -93,4 +101,5 @@
             {/if}
           </div>
     </form>
+  {/if}
 </AuthCheck>

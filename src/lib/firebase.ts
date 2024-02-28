@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, onSnapshot } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, getFirestore, onSnapshot } from "firebase/firestore";
+import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { writable, type Readable, derived } from "svelte/store";
 
@@ -80,12 +80,13 @@ interface UserData {
   username: string;
   bio: string;
   photoURL: string;
+  published: boolean;
   links: any[];
  }
 
- export const UserData: Readable<userData | null> = derived(user, ($user, set) => {
+ export const userData: Readable<UserData | null> = derived(user, ($user, set) => {
   if ($user) {
-    return docStore<userData>(`users/${$user.uid}`).subscribe(set);
+    return docStore<UserData>(`users/${$user.uid}`).subscribe(set);
   } else {
     set(null);
   }
