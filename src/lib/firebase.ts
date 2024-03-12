@@ -24,7 +24,10 @@ export const db = getFirestore();
 export const auth = getAuth();
 export const storage = getStorage();
 
-//** * @returns a store with current firebase user */
+/** 
+* @returns a store with current firebase user 
+*/
+
 function userStore() {
   let unsubscribe: () => void;
 

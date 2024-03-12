@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores";
     import  AnimatedRoute  from "$lib/components/AnimatedRoute.svelte";
+    import AuthCheck from "$lib/components/AuthCheck.svelte";
 </script>
 
 <nav class="flex justify-center my-6">

@@ -12,11 +12,15 @@
 
     $: isValid = username?.length > 2 && username.length < 16 && re.test(username);
     $: isTouched = username.length > 0;
-    $: isTaken = isValid && !isAvailable && !loading
+    $: isTaken = isValid && !isAvailable && !loading;
 
     function checkAvailability() {
         isAvailable = false;
         clearTimeout(debounceTimer);
+        if (!isValid) {
+          loading = false;
+          return;
+        }
 
         loading = true;
 
@@ -40,14 +44,14 @@
             username, 
             photoURL: $user?.photoURL ?? null,
             published: true,
-            bio: 'I am the Walrus',
+            bio: "I am the Walrus",
             links: [
                 {
-                title: 'Test Link',
-                url: 'https://kung.foo',
-                icon: 'custom'
-                }
-        ]
+                title: "Test Link",
+                url: "https://kung.foo",
+                icon: "custom",
+                },
+        ],
     });
 
     await batch.commit();
@@ -75,7 +79,7 @@
             class="input w-full"
             bind:value={username}
             on:input={checkAvailability}
-            class:input-error={[!isValid && isTouched]}
+            class:input-error={!isValid && isTouched}
             class:input-warning={isTaken}
             class:input-success={isAvailable && isValid && !loading}
         />

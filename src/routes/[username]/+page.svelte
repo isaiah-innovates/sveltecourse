@@ -28,7 +28,7 @@
         {#each data.links as item}
             <li>
                 <UserLink {...item} />
-            </li>>
+            </li>
         {/each}
     </ul>
 

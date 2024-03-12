@@ -2,16 +2,22 @@
     import { flip } from "svelte/animate";
     import { createEventDispatcher } from "svelte";
 
+    interface Item {
+        id: string;
+        index: number;
+        [key: string]: any;
+    }
+
     export let list: any[];
     let isOver: string | boolean = false;
 
     const dispatch = createEventDispatcher();
 
-    function getDraggedParent(node: any) {
+    function getDraggedParent(node: any): Item {
         if (!node.dataset.index) {
             return getDraggedParent(node.parentNode);
         } else {
-            return { ...node.dataset };
+            return { ...node.dataset } as Item;
         }
 
     }
@@ -19,7 +25,7 @@
     function onDragStart(e: DragEvent) {
         // @ts-ignore
         const dragged = getDraggedParent(e.target);
-        e.dataTransfer?.setData("Source", dragged?.index.toString());
+        e.dataTransfer?.setData("source", dragged?.index.toString());
     }
 
     function onDragOver(e: DragEvent) {
@@ -29,7 +35,7 @@
         isOver = dragged?.id ?? false;
     }
 
-    function onDragleave(e: DragEvent) {
+    function onDragLeave(e: DragEvent) {
         const dragged = getDraggedParent(e.target);
         isOver == dragged.id && (isOver = false);
     }
@@ -56,17 +62,17 @@
         {#each list as item, index (item.id)}
             <li
                 class="border-2 border-dashed border-transparent p-2 transition-all max-w-md w-full"
-                class:over={item.id == isOver}
+                class:over={item.id === isOver}
                 data-index={index}
                 data-id={item.id}
                 draggable="true"
                 on:dragstart={onDragStart}
-                on:dragover={onDragOver}
-                on:dragleave={onDragleave}
+                on:dragover|preventDefault={onDragOver}
+                on:dragleave={onDragLeave}
                 on:drop|preventDefault={onDrop}
                 animate:flip={{ duration: 300 }}
             >
-            <slot {item} {index} />
+                <slot {item} {index} />
             </li>
         {/each}
     </ul>
