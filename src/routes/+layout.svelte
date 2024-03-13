@@ -1,4 +1,4 @@
-<script lang="ts ">
+<script lang="ts">
     import { user, userData } from "$lib/firebase";
     import "../app.css";
 
